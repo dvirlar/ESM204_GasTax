@@ -1,0 +1,73 @@
+---
+title: "Gas Tax Assignment"
+author: "Daphne Virlar"
+date: "4/25/2019"
+output: html_document
+theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+gt_data <- read_csv("Gas_Data.csv")
+
+```
+
+
+```{r, problem1}
+#What is the aggregate daily demand curve for gasoline in France? 
+
+#Create a linear model that explains how price is influenced by demand 
+    #Creating a linear model to give you the equation of the line.
+low_demand_lm <- lm(gt_data$Price_Dollars ~ gt_data$Q_Low_Gallons_per_Day)
+high_demand_lm <- lm(gt_data$Price_Dollars ~ gt_data$Q_High_Gallons_per_Day)
+
+summary(low_demand_lm)        #p = alpha + beta*Q
+  alpha_low <- 2.199e+01
+  beta_low  <- -1.355e-04
+  
+  
+summary(high_demand_lm)      #p = alpha + beta*Q  
+  alpha_high <- 2.339e+01
+  beta_high  <- -1.297e-04
+
+
+
+Q_low <- (-alpha_low/beta_low)
+Q_high <- (-alpha_high/beta_high)
+
+
+P1 <- alpha_low + beta_low*Q_low
+P2 <- alpha_high + beta_high*Q_high
+Q_agg <- P2+P1
+  
+#What is the supply curve for gasoline? 
+
+
+
+
+
+#What is the “benefit” to consumers under the status quo? 
+
+
+
+
+#What is the “benefit” to producers under the status quo? What is the environmental cost under the status quo?
+
+
+
+
+
+
+
+```
+
+
+
+Tricks of the trade: Page Break. When knitting to html, page break will only appear whe you try to print or print to pdf. 
+<P style="page-break-before: always">
+
+```{r, echo=FALSE}
+
+```
+

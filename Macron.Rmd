@@ -31,8 +31,7 @@ summary(high_demand_lm)      #p = alpha + beta*Q
   alpha_high <- 2.339e+01
   beta_high  <- -1.297e-04
 
-  
-  
+
 Q_low1 <- (1/beta_low)
 Q_low2 <- (alpha_low/-beta_low)
   #Qlow = q_low1*P + q_low2
@@ -41,45 +40,68 @@ Q_high1 <- (1/beta_high)
 Q_high2 <- (alpha_high/-beta_high)
   #Qhigh = q_high1*P + q_high2
 
+Q_agg1 <- Q_low1 + Q_high1
+Q_agg2 <- Q_low2 + Q_high2
 
-m <- Q_low2 + Q_high2
-b <- Q_low1 + Q_high1
-b_div_m <- b/m
-coeff <- 1/m
+P_agg1 <- 1/Q_agg1
+P_agg2 <- -Q_agg2/Q_agg1
 
-############   AGGREGATE EQUATION   ############
-#y = coeff*Qagg - b_div_m
-#P = 2.92e-06*Q - -0.04
+#Finding the supply curve
+sup_curve <- 5/((5-P_agg2)/P_agg1)
 
 #####################################################################################################
+                                          # FUNCTIONS #
 q_low <- function(x){
-  alpha_low - beta_low*x
+  alpha_low + beta_low*x
 }
 
 q_high <- function(x){
-  alpha_high - beta_high*x
+  alpha_high + beta_high*x
 }
 
-Q_agg
+p_agg <- function(x){
+  P_agg2 + P_agg1*x 
+}
+
+supply <- function(x){
+  sup_curve*x
+}
+
+mec <- function(x){
+  2
+}
+
+
+#####################################################################################################
+#data frame to create P-optimum and Q-Optimum point on the graph
+#df <- data.frame(x = 0:267176.2, y = 5)
+
+
+ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just allows for all the large numbers to actually show up on the graph. Otherwise it looks like a  bunch of flat lines.
+  stat_function(fun = q_low, color = "cadetblue3") +
+  stat_function(fun = q_high, color = "red3") +
+  stat_function(fun = p_agg, color = "mediumpurple")+
+  stat_function(fun = supply, color = "olivedrab")+
+  stat_function(fun = mec, color = "orange")+
+  xlab("\nQuantity") + ylab("Price\n") + ggtitle("Problem 1: Initial Gas Tax Set-Up \n") +
+  scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
+  scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) # set x-axis
+
+  
+
+#######################################################################################################
+
+#Calculating Low Consumer Surplus
+base_low <- 125387.5
+height_low <- 162282.8
+cons_surp_low <- (1/2)*base_low*height_low
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 ```
 

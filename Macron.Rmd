@@ -31,20 +31,25 @@ summary(high_demand_lm)      #p = alpha + beta*Q
   alpha_high <- 2.339e+01
   beta_high  <- -1.297e-04
 
-
-Q_low1 <- (1/beta_low)
-Q_low2 <- (alpha_low/-beta_low)
+#Re-arranging equations in terms of Q
+Q_low1 <- (1/beta_low)           #1 / slope
+Q_low2 <- (alpha_low/-beta_low)  #intercept / slope
   #Qlow = q_low1*P + q_low2
 
-Q_high1 <- (1/beta_high)
-Q_high2 <- (alpha_high/-beta_high)
+Q_high1 <- (1/beta_high)            #1 / slope
+Q_high2 <- (alpha_high/-beta_high)  #intercept / slope
   #Qhigh = q_high1*P + q_high2
 
-Q_agg1 <- Q_low1 + Q_high1
-Q_agg2 <- Q_low2 + Q_high2
 
+#Arranging the values in terms of Q
+Q_agg1 <- Q_low1 + Q_high1         #(1/slope) + (1/slope)
+Q_agg2 <- Q_low2 + Q_high2         #intercepts 
+
+
+#Re-arranging the equations in terms of P
 P_agg1 <- 1/Q_agg1
 P_agg2 <- -Q_agg2/Q_agg1
+
 
 #Finding the supply curve
 sup_curve <- 5/((5-P_agg2)/P_agg1)
@@ -141,5 +146,63 @@ ggplot() +
                   fill = "Consumer Surplus"), alpha = 0.25) +
   geom_ribbon(aes(x = z, ymin = 0, ymax = mec(z),
                   fill = "Environmental Cost"), alpha = 0.25)
+
+```
+
+
+
+
+
+
+```{r}
+####################################################################################################
+#Calculating Consumer Surplus for Low Demand
+base_cs_low  <- uniroot(function(x) demand_low(x) - supply_fx(x), range(x))$root
+height_cs_low <- alpha_low - demand_low(base_cs_low)
+              #y intercept of demand curve - price intercept of demand curve
+area_cs_low <- .5*base_cs_low*height_cs_low
+                #1,377,561
+
+
+#Calculating Consumer Surplus for High Demand
+base_cs_high  <- uniroot(function(x) demand_high(x) - supply_fx(x), range(x))$root
+height_cs_high <- alpha_high - demand_high(base_cs_high)
+              #y intercept of demand curve - price intercept of demand curve
+area_cs_high <- .5*base_cs_high*height_cs_high
+              #1,610,717
+
+#Calculating Aggregate Consumer Surplus
+area_cs_agg <- area_cs_high + area_cs_low
+              #2,988,278
+
+#Percent of Low CS that contributes to Aggreate CS
+prop_low <- (area_cs_low/area_cs_agg)*100
+
+#Percent of High CS that contributes to Aggreate CS
+prop_high <- (area_cs_high/area_cs_agg)*100
+
+
+
+####################################################################################################
+#Calculate PS of the Aggregate Demand Curve (PS_Low + PS_High)
+
+ps_low <- 0.5*base_cs_low*demand_low(base_cs_low)
+         #0.5*    base*  price intercept of demand curve (this gives height)
+
+ps_high <- 0.5*base_cs_high*demand_high(base_cs_high)
+         #0.5*    base*  price intercept of demand curve (this gives height)
+
+ps_agg <- ps_low + ps_high
+
+
+####################################################################################################
+#Calculate Environmental Cost
+env_cost <- 2*q_test
+            #2 is the marginal externality cost
+            #q_test is the quantity for where the supply and aggregate intersect
+
+
+
+
 ```
 

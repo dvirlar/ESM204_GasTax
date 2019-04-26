@@ -31,28 +31,49 @@ summary(high_demand_lm)      #p = alpha + beta*Q
   alpha_high <- 2.339e+01
   beta_high  <- -1.297e-04
 
-
-
-Q_low <- (-alpha_low/beta_low)
-Q_high <- (-alpha_high/beta_high)
-
-
-P1 <- alpha_low + beta_low*Q_low
-P2 <- alpha_high + beta_high*Q_high
-Q_agg <- P2+P1
   
-#What is the supply curve for gasoline? 
+  
+Q_low1 <- (1/beta_low)
+Q_low2 <- (alpha_low/-beta_low)
+  #Qlow = q_low1*P + q_low2
+
+Q_high1 <- (1/beta_high)
+Q_high2 <- (alpha_high/-beta_high)
+  #Qhigh = q_high1*P + q_high2
+
+
+m <- Q_low2 + Q_high2
+b <- Q_low1 + Q_high1
+b_div_m <- b/m
+coeff <- 1/m
+
+############   AGGREGATE EQUATION   ############
+#y = coeff*Qagg - b_div_m
+#P = 2.92e-06*Q - -0.04
+
+#####################################################################################################
+q_low <- function(x){
+  alpha_low - beta_low*x
+}
+
+q_high <- function(x){
+  alpha_high - beta_high*x
+}
+
+Q_agg
 
 
 
 
 
-#What is the “benefit” to consumers under the status quo? 
 
 
 
 
-#What is the “benefit” to producers under the status quo? What is the environmental cost under the status quo?
+
+
+
+
 
 
 

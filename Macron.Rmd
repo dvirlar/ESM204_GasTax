@@ -9,18 +9,18 @@ theme: yeti
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-gt_data <- read_csv("Gas_Data.csv")
+data <- read_csv("Gas_Data.csv")
 
 ```
 
 
-```{r, problem1}
+```{r, echo = FALSE}
 #What is the aggregate daily demand curve for gasoline in France? 
 
 #Create a linear model that explains how price is influenced by demand 
     #Creating a linear model to give you the equation of the line.
-low_demand_lm <- lm(gt_data$Price_Dollars ~ gt_data$Q_Low_Gallons_per_Day)
-high_demand_lm <- lm(gt_data$Price_Dollars ~ gt_data$Q_High_Gallons_per_Day)
+low_demand_lm <- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
+high_demand_lm <- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 
 summary(low_demand_lm)        #p = alpha + beta*Q
   alpha_low <- 2.199e+01
@@ -51,43 +51,43 @@ sup_curve <- 5/((5-P_agg2)/P_agg1)
 
 #####################################################################################################
                                           # FUNCTIONS #
-q_low <- function(x){
+demand_low <- function(x){
   alpha_low + beta_low*x
 }
 
-q_high <- function(x){
+demand_high <- function(x){
   alpha_high + beta_high*x
 }
 
-p_agg <- function(x){
+demand_agg <- function(x){
   P_agg2 + P_agg1*x 
 }
 
-supply <- function(x){
+supply_fx <- function(x){
   sup_curve*x
 }
 
 mec <- function(x){
-  2
+  2 + 0*x
 }
 
 
 #####################################################################################################
 #data frame to create P-optimum and Q-Optimum point on the graph
-#df <- data.frame(x = 0:267176.2, y = 5)
+df <- data.frame(x = c(0:267176.2), y = c(5))
+x <- 70000:500000
 
-
-ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just allows for all the large numbers to actually show up on the graph. Otherwise it looks like a  bunch of flat lines.
-  stat_function(fun = q_low, color = "cadetblue3") +
-  stat_function(fun = q_high, color = "red3") +
-  stat_function(fun = p_agg, color = "mediumpurple")+
-  stat_function(fun = supply, color = "olivedrab")+
+chart <- ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just allows for all the large numbers to actually show up on the graph. Otherwise it looks like a  bunch of flat lines.
+  stat_function(fun = demand_low, color = "cadetblue3") +
+  stat_function(fun = demand_high, color = "red3") +
+  stat_function(fun = demand_agg, color = "mediumpurple")+
+  stat_function(fun = supply_fx, color = "olivedrab")+
   stat_function(fun = mec, color = "orange")+
   xlab("\nQuantity") + ylab("Price\n") + ggtitle("Problem 1: Initial Gas Tax Set-Up \n") +
   scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
   scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) # set x-axis
 
-  
+chart
 
 #######################################################################################################
 
@@ -95,14 +95,6 @@ ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just a
 base_low <- 125387.5
 height_low <- 162282.8
 cons_surp_low <- (1/2)*base_low*height_low
-
-
-
-
-
-
-        
-
 ```
 
 
@@ -112,5 +104,42 @@ Tricks of the trade: Page Break. When knitting to html, page break will only app
 
 ```{r, echo=FALSE}
 
+#Equilibrium quantity
+  #uniroot() finds the intersection point between two lines. HOW FUCKING COOL IS THAT.
+  #And I'm pretty sure range(x) is just to provide the function with where to look
+q_test <- uniroot(function(x) demand_agg(x) - supply_fx(x), range(x))$root
+# Equilibrium price
+p_test <- supply_fx(q_test)
+
+
+z <- seq(0, q_test, 0.05)
+
+
+ggplot() +
+  stat_function(aes(x, color = "Low Gallons Demand"), fun = demand_low) +
+  stat_function(aes(x, color = "High Gallons Demand"), fun = demand_high) +
+  stat_function(aes(x, color = "Aggregate Demand"), fun = demand_agg) + 
+  stat_function(aes(x, color = "Marginal Externality Cost"), fun = mec) +
+  stat_function(aes(x, color = "Supply"), fun = supply_fx) +
+  xlab("\nQuantity") +
+  ylab("Price\n") + 
+  ggtitle("Problem 1: Initial Gas Tax Set-Up \n") +
+  scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
+  scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) + # set x-axis
+  theme_bw()+
+  ###
+  annotate("point", x = q_test, y = 5, color = "grey30") + 
+  ###
+  annotate("segment", x = q_test, xend = q_test, y = 0, yend = 5,
+           linetype = "dashed", color = "grey30") +
+  annotate("segment", x = 0, xend = q_test, y = 5, yend = 5,
+           linetype = "dashed", color = "grey30") +
+  ###
+  geom_ribbon(aes(x = z, ymin = supply_fx(z), ymax = 5,
+                  fill = "Producer Surplus"), alpha = 0.25) +
+  geom_ribbon(aes(x = z, ymin = 5, ymax = demand_agg(z),
+                  fill = "Consumer Surplus"), alpha = 0.25) +
+  geom_ribbon(aes(x = z, ymin = 0, ymax = mec(z),
+                  fill = "Environmental Cost"), alpha = 0.25)
 ```
 

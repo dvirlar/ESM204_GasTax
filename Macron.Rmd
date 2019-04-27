@@ -324,7 +324,17 @@ Effect of gas tax on environmental cost:
 Effect of gas tax on total revenue: 
 
 ###**4.**
+Effect of range of gas taxes on high income consumer surplus:
+
+Effect of range of gas taxes on low income consumer surplus:
 
 ###**5.**
+Effects of electric car popularity on quantity of gasoline consumed by high income consumers:
+
+Effects of electric car popularity on quantity of gasoline consumed by low income consumers: 
+
+Effects of electric car popularity on price of gasoline:
+
+Effects of electric car popularity on environmental cost:
 
 ###**6.**

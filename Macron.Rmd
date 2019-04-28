@@ -339,6 +339,102 @@ pretax_revenue <- 5 * q_test # $1,335,881
 
 
 
+```{r #5.Electric_cars}
+########################################### 5. ELECTRIC CARS ########################################
+
+# #5. Finally, assume that electric cars will gain popularity and that in the future this will lower the demand curves of all income groups by half (vertically). Under these new demand curves, what are the effects on: 
+  # Gas consumption by “High” income consumers
+  # Gas consumption by “Low” income consumers
+  # Gas price
+  # Environmental damage from gasoline
+
+
+# "_e" stands for electric cars
+# We're dividing the y-intercepts by 2
+
+# Find intercept and slope for low income demand curve
+summary(low_demand_lm)        #p = alpha + beta*Q
+  alpha_low_e <- 2.199e+01/2 #alpha = intercept
+  beta_low  <- -1.355e-04 #beta = slope
+  
+# Find intercept and slope for high income demand curve
+summary(high_demand_lm)      #p = alpha + beta*Q  
+  alpha_high_e <- 2.339e+01/2 #alpha = intercept
+  beta_high  <- -1.297e-04 #beta = slope
+
+#Re-arranging equations in terms of Q
+Q_low1 <- (1/beta_low)           #1 / slope
+Q_low2_e <- (alpha_low_e/-beta_low)  #intercept / slope
+  #Qlow = q_low1*P + q_low2
+
+Q_high1 <- (1/beta_high)            #1 / slope
+Q_high2_e <- (alpha_high_e/-beta_high)  #intercept / slope
+  #Qhigh = q_high1*P + q_high2
+
+
+#Arranging the values in terms of Q
+Q_agg1 <- Q_low1 + Q_high1         #(1/slope) + (1/slope)
+Q_agg2_e <- Q_low2_e + Q_high2_e         #intercepts 
+
+
+#Re-arranging the equations in terms of P
+P_agg1 <- 1/Q_agg1
+P_agg2_e <- -Q_agg2_e/Q_agg1
+
+
+#Finding the slope of the supply curve ***THIS STAYS THE SAME AS #1 SINCE WE'RE JUST CHANGING THE DEMAND CURVES
+supply_slope <- 5/((5-P_agg2)/P_agg1)
+
+#####################################################################################################
+                                          # FUNCTIONS #
+
+# Create function for low income demand curve
+demand_low_e <- function(x){
+  alpha_low_e + beta_low*x
+}
+
+# Create function for high income demand curve
+demand_high_e <- function(x){
+  alpha_high_e + beta_high*x
+}
+
+# Create function for aggregate demand curve (low income + high income demand curves added horizontally by Q)
+demand_agg_e <- function(x){
+  P_agg2_e + P_agg1*x 
+}
+
+# Create function for supply curve
+supply_fx <- function(x){
+  supply_slope*x
+}
+
+# Create function for marginal environmental cost (MEC) curve
+mec <- function(x){
+  2 + 0*x
+}
+
+#Equilibrium quantity
+  #uniroot() finds the intersection point between two lines. HOW FUCKING COOL IS THAT.
+  #And I'm pretty sure range(x) is just to provide the function with where to look
+
+# Equilibrium quantity for aggregate demand curve
+q_agg_e <- uniroot(function(x) demand_agg_e(x) - supply_fx(x), range(x))$root
+  # Electric cars Q aggregate = 133588.1
+
+# Equilibrium quantity for high income demand curve
+q_high_e <- uniroot(function(x) demand_high_e(x) - supply_fx(x), range(x))$root
+  # Electric cars Q high = 78799.72
+
+# Equilibrium quantity for low income demand curve
+q_low_e <- uniroot(function(x) demand_low_e(x) - supply_fx(x), range(x))$root
+  # Electric cars Q low = 71296.92
+
+# Equilibrium price for Q aggregrate
+p_e <- supply_fx(q_agg_e)
+  # Electric cars price = 2.5
+
+
+```
 
 
 

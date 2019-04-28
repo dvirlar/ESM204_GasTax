@@ -265,6 +265,10 @@ env_cost_tax <- 2*q_tax
             #2 is the marginal externality cost
             #q_tax is the quantity for where the supply and aggregate intersect
 
+
+####################################################################################################
+#Calculate Total Revenue (= price * quantity)
+tax_revenue <- p_tax * q_tax
 ```
 
 

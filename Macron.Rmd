@@ -114,8 +114,19 @@ Tricks of the trade: Page Break. When knitting to html, page break will only app
   #uniroot() finds the intersection point between two lines. HOW FUCKING COOL IS THAT.
   #And I'm pretty sure range(x) is just to provide the function with where to look
 q_test <- uniroot(function(x) demand_agg(x) - supply_fx(x), range(x))$root
+  # Q aggregate = 267176.2 gallons
+
 # Equilibrium price
 p_test <- supply_fx(q_test)
+  # P = $5
+
+# Equilibrium quantity for high income demand curve
+q_test_high <- uniroot(function(x) demand_high(x) - supply_fx(x), range(x))$root
+  # Q high = 157599.4
+
+# Equilibrium quantity for low income demand curve
+q_test_low <- uniroot(function(x) demand_low(x) - supply_fx(x), range(x))$root
+  # Q low = 142593.8
 
 
 z <- seq(0, q_test, 0.05)
@@ -283,44 +294,49 @@ pretax_revenue <- 5 * q_test # $1,335,881
 
 
 ```{r problem4, echo=FALSE}
-#Find CS for high & low, with tax $1-5. Put in kable table. Do same for PS.
 
+################### GAS TAX OF $2 ####################################################
 #For comments, look above. This is directly copy and pasted from the above code chunk.
-supply_tax <- function(x){
-  supply_slope*x + 5
+supply_tax_2 <- function(x){
+  supply_slope*x + 2
 }
 
 ####################################################################################################
-#Caculate welfare (consumer surplus) of high income consumers   -- LAURA AT 292
-tax_base_cs_high  <- uniroot(function(x) demand_high(x) - supply_tax(x), range(x))$root
-tax_height_cs_high <- alpha_high - demand_high(tax_base_cs_high)
+#Caculate welfare (consumer surplus) of high income consumers   
+tax_base_cs_high_2  <- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
+tax_height_cs_high_2 <- alpha_high - demand_high(tax_base_cs_high_2)
               #y intercept of demand curve - price intercept of demand curve
-tax_area_cs_high <- .5*tax_base_cs_high*tax_height_cs_high
+tax_area_cs_high_2 <- .5*tax_base_cs_high_2*tax_height_cs_high_2
     
 
 #Caculate welfare (consumer surplus) of low income consumers
-tax_base_cs_low  <- uniroot(function(x) demand_low(x) - supply_tax(x), range(x))$root
-tax_height_cs_low <- alpha_low - demand_low(tax_base_cs_low)
+tax_base_cs_low_2  <- uniroot(function(x) demand_low(x) - supply_tax_2(x), range(x))$root
+tax_height_cs_low_2 <- alpha_low - demand_low(tax_base_cs_low_2)
               #y intercept of demand curve - price intercept of demand curve
-tax_area_cs_low <- .5*tax_base_cs_low*tax_height_cs_low
+tax_area_cs_low_2 <- .5*tax_base_cs_low_2*tax_height_cs_low_2
 
 
 ####################################################################################################
 #Producer surplus after tax
 
 #low demand producer surplus after gas tax
-ps_low_tax <- 0.5*tax_base_cs_low*demand_low(tax_base_cs_low)
+ps_low_tax_2 <- 0.5*tax_base_cs_low_2*demand_low(tax_base_cs_low_2)
          #0.5*    base*  price intercept of demand curve (this gives height)
 
 #high demand producer surplus after gas tax
-ps_high_tax <- 0.5*tax_base_cs_high*demand_high(tax_base_cs_high)
+ps_high_tax_2 <- 0.5*tax_base_cs_high_2*demand_high(tax_base_cs_high_2)
          #0.5*    base*  price intercept of demand curve (this gives height)
 
 #aggregate demand producer surplus after gas tax
-ps_agg <- ps_low_tax + ps_high_tax
+ps_agg_2 <- ps_low_tax_2 + ps_high_tax_2
 
 
-tax_area_cs_low; tax_area_cs_high; ps_agg
+tax_area_cs_low_2; tax_area_cs_high_2; ps_agg_2
+
+#Calculate Environmental Cost under $2 gas tax
+env_cost_2 <- 2*q_agg_e # 
+            #2 is the marginal externality cost
+            #q_agg_e is the quantity for where the supply and aggregate intersect
 ```
 
 
@@ -420,6 +436,27 @@ q_low_e <- uniroot(function(x) demand_low_e(x) - supply_fx(x), range(x))$root
 p_e <- supply_fx(q_agg_e)
   # Electric cars price = 2.5
 
+#Calculate Environmental Cost under electric car scenario
+env_cost_e <- 2*q_agg_e # 267176.2
+            #2 is the marginal externality cost
+            #q_agg_e is the quantity for where the supply and aggregate intersect
+```
+
+```{r #6}
+
+#Create new supply curve at the $2 tax increase
+supply_tax_2 <- function(x){
+  supply_slope*x + 2
+}
+
+# Equilibrium quantity for aggregate demand curve
+q_agg_2 <- uniroot(function(x) demand_agg(x) - supply_tax_2(x), range(x))$root
+  # $2 gas tax Q aggregate = 243641.9
+
+#Calculate Environmental Cost under $2 gas tax scenario
+env_cost_2 <- 2*q_agg_2 # 487283.9
+            #2 is the marginal externality cost
+            #q_agg_2 is the quantity for where the supply and aggregate intersect
 
 ```
 

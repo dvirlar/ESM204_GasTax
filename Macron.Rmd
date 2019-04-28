@@ -103,12 +103,10 @@ chart
 
 #######################################################################################################
 
-# 2. How is the current consumer benefit divided between "High" and "Low" income consumers?
 #Calculating Low Consumer Surplus
 base_low <- 125387.5
 height_low <- 162282.8
 cons_surp_low <- (1/2)*base_low*height_low
-# Low consumer surplus = 46.1% of aggregate consumer surplus
 ```
 
 
@@ -134,8 +132,8 @@ ggplot() +
   stat_function(aes(x, color = "Aggregate Demand"), fun = demand_agg) + 
   stat_function(aes(x, color = "Marginal Externality Cost"), fun = mec) +
   stat_function(aes(x, color = "Supply"), fun = supply_fx) +
-  xlab("\nQuantity") +
-  ylab("Price\n") + 
+  xlab("\nQuantity (gallons of gasoline)") +
+  ylab("Price (dollars)\n") + 
   ggtitle("Figure 1: Initial Gas Tax Set-Up \n") +
   scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
   scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) + # set x-axis
@@ -164,6 +162,9 @@ ggplot() +
 
 ```{r, echo = FALSE}
 ####################################################################################################
+
+# 1. What is the "benefit" to consumers under the status quo?
+
 #Calculating Consumer Surplus for Low Demand
 base_cs_low  <- uniroot(function(x) demand_low(x) - supply_fx(x), range(x))$root
 height_cs_low <- alpha_low - demand_low(base_cs_low)
@@ -183,15 +184,18 @@ area_cs_high <- .5*base_cs_high*height_cs_high
 area_cs_agg <- area_cs_high + area_cs_low
               #2,988,278
 
+# 2. How is the current consumer benefit divided between "High" and "Low" income consumers?
 #Percent of Low CS that contributes to Aggreate CS
-prop_low <- (area_cs_low/area_cs_agg)*100
+prop_low <- (area_cs_low/area_cs_agg)*100 # 46.1%
 
 #Percent of High CS that contributes to Aggreate CS
-prop_high <- (area_cs_high/area_cs_agg)*100
+prop_high <- (area_cs_high/area_cs_agg)*100 # 53.9%
 
 
 
 ####################################################################################################
+# 1. What is the "benefit" to producers under the status quo?
+
 #Calculate PS of the Aggregate Demand Curve (PS_Low + PS_High)
 
 ps_low <- 0.5*base_cs_low*demand_low(base_cs_low)
@@ -204,6 +208,8 @@ ps_agg <- ps_low + ps_high
 
 
 ####################################################################################################
+#1. What is the environmental cost under the status quo?
+
 #Calculate Environmental Cost
 env_cost <- 2*q_test
             #2 is the marginal externality cost
@@ -215,7 +221,7 @@ env_cost <- 2*q_test
 
 ```{r, echo=FALSE}
 ####################################################################################################
-                                  #Adding the Gas Tax
+                                  #3. Adding the Gas Tax
 
 #Find effects on quantity and supply after the gas tax
 #Create new supply curve at the 50 cent tax increase

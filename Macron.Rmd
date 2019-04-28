@@ -103,10 +103,12 @@ chart
 
 #######################################################################################################
 
+# 2. How is the current consumer benefit divided between "High" and "Low" income consumers?
 #Calculating Low Consumer Surplus
 base_low <- 125387.5
 height_low <- 162282.8
 cons_surp_low <- (1/2)*base_low*height_low
+# Low consumer surplus = 46.1% of aggregate consumer surplus
 ```
 
 

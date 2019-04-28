@@ -280,8 +280,263 @@ pretax_revenue <- 5 * q_test # $1,335,881
 ```
 
 
-```{r problem4, echo=FALSE}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r problem4, echo=FALSE}
+#Find CS for high & low, with tax $1-5. Put in kable table. Do same for PS.
+
+#For comments, look above. This is directly copy and pasted from the above code chunk.
+supply_tax <- function(x){
+  supply_slope*x + 5
+}
+
+####################################################################################################
+#Caculate welfare (consumer surplus) of high income consumers   -- LAURA AT 292
+tax_base_cs_high  <- uniroot(function(x) demand_high(x) - supply_tax(x), range(x))$root
+tax_height_cs_high <- alpha_high - demand_high(tax_base_cs_high)
+              #y intercept of demand curve - price intercept of demand curve
+tax_area_cs_high <- .5*tax_base_cs_high*tax_height_cs_high
+    
+
+#Caculate welfare (consumer surplus) of low income consumers
+tax_base_cs_low  <- uniroot(function(x) demand_low(x) - supply_tax(x), range(x))$root
+tax_height_cs_low <- alpha_low - demand_low(tax_base_cs_low)
+              #y intercept of demand curve - price intercept of demand curve
+tax_area_cs_low <- .5*tax_base_cs_low*tax_height_cs_low
+
+
+####################################################################################################
+#Producer surplus after tax
+
+#low demand producer surplus after gas tax
+ps_low_tax <- 0.5*tax_base_cs_low*demand_low(tax_base_cs_low)
+         #0.5*    base*  price intercept of demand curve (this gives height)
+
+#high demand producer surplus after gas tax
+ps_high_tax <- 0.5*tax_base_cs_high*demand_high(tax_base_cs_high)
+         #0.5*    base*  price intercept of demand curve (this gives height)
+
+#aggregate demand producer surplus after gas tax
+ps_agg <- ps_low_tax + ps_high_tax
+
+
+tax_area_cs_low; tax_area_cs_high; ps_agg
 ```
 
 

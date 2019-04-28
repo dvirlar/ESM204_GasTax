@@ -120,14 +120,6 @@ q_test <- uniroot(function(x) demand_agg(x) - supply_fx(x), range(x))$root
 p_test <- supply_fx(q_test)
   # P = $5
 
-# Equilibrium quantity for high income demand curve
-q_test_high <- uniroot(function(x) demand_high(x) - supply_fx(x), range(x))$root
-  # Q high = 157599.4
-
-# Equilibrium quantity for low income demand curve
-q_test_low <- uniroot(function(x) demand_low(x) - supply_fx(x), range(x))$root
-  # Q low = 142593.8
-
 
 z <- seq(0, q_test, 0.05)
 
@@ -172,23 +164,24 @@ ggplot() +
 # 1. What is the "benefit" to consumers under the status quo?
 
 #Calculating Consumer Surplus for Low Demand
-base_cs_low  <- uniroot(function(x) demand_low(x) - supply_fx(x), range(x))$root
+base_cs_low  <- uniroot(function(x) demand_low(x) - 5, range(x))$root
+                #This is just 5 because we have an aggregate demand. And the aggregate demand is equal to the summation of the CS's *AT THE AGG. DEMAND EQUILIBRIUM PRICE*.
 height_cs_low <- alpha_low - demand_low(base_cs_low)
               #y intercept of demand curve - price intercept of demand curve
 area_cs_low <- .5*base_cs_low*height_cs_low
-                #1,377,561
+                #1,065,166
 
 
 #Calculating Consumer Surplus for High Demand
-base_cs_high  <- uniroot(function(x) demand_high(x) - supply_fx(x), range(x))$root
+base_cs_high  <- uniroot(function(x) demand_high(x) - 5, range(x))$root
 height_cs_high <- alpha_high - demand_high(base_cs_high)
               #y intercept of demand curve - price intercept of demand curve
 area_cs_high <- .5*base_cs_high*height_cs_high
-              #1,610,717
+              #1,303,747
 
 #Calculating Aggregate Consumer Surplus
 area_cs_agg <- area_cs_high + area_cs_low
-              #2,988,278
+              #2,368,914
 
 # 2. How is the current consumer benefit divided between "High" and "Low" income consumers?
 #Percent of Low CS that contributes to Aggreate CS
@@ -206,6 +199,7 @@ prop_high <- (area_cs_high/area_cs_agg)*100 # 53.9%
 
 ps_low <- 0.5*base_cs_low*demand_low(base_cs_low)
          #0.5*    base*  price intercept of demand curve (this gives height)
+                        #in this case, the price intercept is still 5. I could have typed in 5, but I guess I didn't because I like to be difficult. Whoops.
 
 ps_high <- 0.5*base_cs_high*demand_high(base_cs_high)
          #0.5*    base*  price intercept of demand curve (this gives height)
@@ -246,19 +240,18 @@ q_tax <- uniroot(function(x) demand_agg(x) - supply_tax(x), range(x))$root
 
 ####################################################################################################
 #Caculate welfare (consumer surplus) of high income consumers   -- LAURA AT 292
-tax_base_cs_high  <- uniroot(function(x) demand_high(x) - supply_tax(x), range(x))$root
+tax_base_cs_high  <- uniroot(function(x) demand_high(x) - p_tax, range(x))$root
 tax_height_cs_high <- alpha_high - demand_high(tax_base_cs_high)
               #y intercept of demand curve - price intercept of demand curve
 tax_area_cs_high <- .5*tax_base_cs_high*tax_height_cs_high
-              #1,610,717 --> 1,542,590
-    
+              #1,303,747 --> 1,195,527
 
 #Caculate welfare (consumer surplus) of low income consumers
-tax_base_cs_low  <- uniroot(function(x) demand_low(x) - supply_tax(x), range(x))$root
+tax_base_cs_low  <- uniroot(function(x) demand_low(x) - p_tax, range(x))$root
 tax_height_cs_low <- alpha_low - demand_low(tax_base_cs_low)
               #y intercept of demand curve - price intercept of demand curve
 tax_area_cs_low <- .5*tax_base_cs_low*tax_height_cs_low
-                #1,377,561 --> 1,315,628
+                #969,634.7 --> 822,331.8
 
 ####################################################################################################
 #Producer surplus after tax
@@ -273,7 +266,7 @@ ps_high_tax <- 0.5*tax_base_cs_high*demand_high(tax_base_cs_high)
 
 #aggregate demand producer surplus after gas tax
 ps_agg <- ps_low_tax + ps_high_tax
-        #477,678.4
+        #738,105
 
 ####################################################################################################
 #Calculate Environmental Cost
@@ -284,7 +277,7 @@ env_cost_tax <- 2*q_tax # $522,585.3
 
 ####################################################################################################
 #Calculate Total Revenue (= price * quantity)
-tax_revenue <- p_tax * q_tax # $1,408,339
+tax_revenue <- p_tax * q_tax # $1,510,216
 
 pretax_revenue <- 5 * q_test # $1,335,881
 

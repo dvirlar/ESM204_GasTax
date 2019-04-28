@@ -52,7 +52,7 @@ P_agg2 <- -Q_agg2/Q_agg1
 
 
 #Finding the supply curve
-sup_curve <- 5/((5-P_agg2)/P_agg1)
+supply_slope <- 5/((5-P_agg2)/P_agg1)
 
 #####################################################################################################
                                           # FUNCTIONS #
@@ -69,7 +69,7 @@ demand_agg <- function(x){
 }
 
 supply_fx <- function(x){
-  sup_curve*x
+  supply_slope*x
 }
 
 mec <- function(x){
@@ -240,10 +240,23 @@ tax_area_cs_low <- .5*tax_base_cs_low*tax_height_cs_low
 ####################################################################################################
 #Producer surplus after tax
 
+#low demand producer surplus after gas tax
+ps_low_tax <- 0.5*tax_base_cs_low*demand_low(tax_base_cs_low)
+         #0.5*    base*  price intercept of demand curve (this gives height)
 
+#high demand producer surplus after gas tax
+ps_high_tax <- 0.5*tax_base_cs_high*demand_high(tax_base_cs_high)
+         #0.5*    base*  price intercept of demand curve (this gives height)
 
+#aggregate demand producer surplus after gas tax
+ps_agg <- ps_low_tax + ps_high_tax
+        #477,678.4
 
-
+####################################################################################################
+#Calculate Environmental Cost
+env_cost_tax <- 2*q_tax
+            #2 is the marginal externality cost
+            #q_tax is the quantity for where the supply and aggregate intersect
 
 ```
 

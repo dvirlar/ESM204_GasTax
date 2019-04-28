@@ -22,11 +22,12 @@ data <- read_csv("Gas_Data.csv")
 low_demand_lm <- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
 high_demand_lm <- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 
+# Find intercept and slope for low income demand curve
 summary(low_demand_lm)        #p = alpha + beta*Q
   alpha_low <- 2.199e+01 #alpha = intercept
   beta_low  <- -1.355e-04 #beta = slope
   
-  
+# Find intercept and slope for high income demand curve
 summary(high_demand_lm)      #p = alpha + beta*Q  
   alpha_high <- 2.339e+01 #alpha = intercept
   beta_high  <- -1.297e-04 #beta = slope
@@ -51,34 +52,40 @@ P_agg1 <- 1/Q_agg1
 P_agg2 <- -Q_agg2/Q_agg1
 
 
-#Finding the supply curve
+#Finding the slope of the supply curve
 supply_slope <- 5/((5-P_agg2)/P_agg1)
 
 #####################################################################################################
                                           # FUNCTIONS #
+
+# Create function for low income demand curve
 demand_low <- function(x){
   alpha_low + beta_low*x
 }
 
+# Create function for high income demand curve
 demand_high <- function(x){
   alpha_high + beta_high*x
 }
 
+# Create function for aggregate demand curve (low income + high income demand curves added horizontally by Q)
 demand_agg <- function(x){
   P_agg2 + P_agg1*x 
 }
 
+# Create function for supply curve
 supply_fx <- function(x){
   supply_slope*x
 }
 
+# Create function for marginal environmental cost (MEC) curve
 mec <- function(x){
   2 + 0*x
 }
 
 
 #####################################################################################################
-#data frame to create P-optimum and Q-Optimum point on the graph
+#data frame to create P-optimum and Q-optimum point on the graph
 df <- data.frame(x = c(0:267176.2), y = c(5))
 x <- 70000:500000
 
@@ -118,7 +125,7 @@ p_test <- supply_fx(q_test)
 
 z <- seq(0, q_test, 0.05)
 
-
+# Plot graph of initial gas tax
 ggplot() +
   stat_function(aes(x, color = "Low Gallons Demand"), fun = demand_low) +
   stat_function(aes(x, color = "High Gallons Demand"), fun = demand_high) +

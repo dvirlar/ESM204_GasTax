@@ -14,7 +14,8 @@ data <- read_csv("Gas_Data.csv")
 ```
 
 ```{r, echo = FALSE}
-#What is the aggregate daily demand curve for gasoline in France? 
+
+# 1.What is the aggregate daily demand curve for gasoline in France? 
 
 #Create a linear model that explains how price is influenced by demand 
     #Creating a linear model to give you the equation of the line.
@@ -22,13 +23,13 @@ low_demand_lm <- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
 high_demand_lm <- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 
 summary(low_demand_lm)        #p = alpha + beta*Q
-  alpha_low <- 2.199e+01
-  beta_low  <- -1.355e-04
+  alpha_low <- 2.199e+01 #alpha = intercept
+  beta_low  <- -1.355e-04 #beta = slope
   
   
 summary(high_demand_lm)      #p = alpha + beta*Q  
-  alpha_high <- 2.339e+01
-  beta_high  <- -1.297e-04
+  alpha_high <- 2.339e+01 #alpha = intercept
+  beta_high  <- -1.297e-04 #beta = slope
 
 #Re-arranging equations in terms of Q
 Q_low1 <- (1/beta_low)           #1 / slope

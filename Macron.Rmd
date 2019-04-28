@@ -221,7 +221,7 @@ env_cost <- 2*q_test
 #Find effects on quantity and supply after the gas tax
 #Create new supply curve at the 50 cent tax increase
 supply_tax <- function(x){
-  sup_curve*x + 0.5
+  supply_slope*x + 0.5
 }
 
 #Find new quantity of the aggregate demand curve and the new supply curve

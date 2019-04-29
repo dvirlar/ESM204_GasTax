@@ -185,10 +185,10 @@ area_cs_agg <- area_cs_high + area_cs_low
 
 # 2. How is the current consumer benefit divided between "High" and "Low" income consumers?
 #Percent of Low CS that contributes to Aggreate CS
-prop_low <- (area_cs_low/area_cs_agg)*100 # 46.1%
+prop_low <- (area_cs_low/area_cs_agg)*100 # 44.96%
 
 #Percent of High CS that contributes to Aggreate CS
-prop_high <- (area_cs_high/area_cs_agg)*100 # 53.9%
+prop_high <- (area_cs_high/area_cs_agg)*100 # 55.04%
 
 
 
@@ -241,35 +241,36 @@ q_tax <- uniroot(function(x) demand_agg(x) - supply_tax(x), range(x))$root
 ####################################################################################################
 #Caculate welfare (consumer surplus) of high income consumers   -- LAURA AT 292
 tax_base_cs_high  <- uniroot(function(x) demand_high(x) - p_tax, range(x))$root
+    #finding x intercept of new supply curve for high demand
 tax_height_cs_high <- alpha_high - demand_high(tax_base_cs_high)
               #y intercept of demand curve - price intercept of demand curve
 tax_area_cs_high <- .5*tax_base_cs_high*tax_height_cs_high
-              #1,303,747 --> 1,195,527
+              #1,303,747 --> 1249051
 
 #Caculate welfare (consumer surplus) of low income consumers
 tax_base_cs_low  <- uniroot(function(x) demand_low(x) - p_tax, range(x))$root
 tax_height_cs_low <- alpha_low - demand_low(tax_base_cs_low)
               #y intercept of demand curve - price intercept of demand curve
 tax_area_cs_low <- .5*tax_base_cs_low*tax_height_cs_low
-                #969,634.7 --> 822,331.8
+                #969,634.7 --> 1016840
 
 ####################################################################################################
 #Producer surplus after tax
 
-#low demand producer surplus after gas tax
-ps_low_tax <- 0.5*tax_base_cs_low*demand_low(tax_base_cs_low)
-         #0.5*    base*  price intercept of demand curve (this gives height)
+#Step 1: Find new quantity. This is where the supply_tax curve intersects the demand agg
+q_tax
 
-#high demand producer surplus after gas tax
-ps_high_tax <- 0.5*tax_base_cs_high*demand_high(tax_base_cs_high)
-         #0.5*    base*  price intercept of demand curve (this gives height)
+#Step 2: Find the price of this quantity ON THE ORIGINAL SUPPLY CURVE --> new height
+p_tax_agg <- supply_fx(q_tax)
 
-#aggregate demand producer surplus after gas tax
-ps_agg <- ps_low_tax + ps_high_tax
-        #738,105
+
+#Step 3: Find the area of the producer surplus
+  #base = q_tax
+  # height = p_tax_agg
+ps_tax_50 <- .5*q_tax*p_tax_agg
 
 ####################################################################################################
-#Calculate Environmental Cost
+#Calculate Environmental Cost at new Tax Intersect
 env_cost_tax <- 2*q_tax # $522,585.3
             #2 is the marginal externality cost
             #q_tax is the quantity for where the supply and aggregate intersect
@@ -277,8 +278,9 @@ env_cost_tax <- 2*q_tax # $522,585.3
 
 ####################################################################################################
 #Calculate Total Revenue (= price * quantity)
-tax_revenue <- p_tax * q_tax # $1,510,216
+tax_revenue <- q_tax * (p_tax - p_tax_agg) # $130646.3
 
+#????? Wtf is pre-tax revenue
 pretax_revenue <- 5 * q_test # $1,335,881
 
 ```

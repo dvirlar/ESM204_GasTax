@@ -158,7 +158,7 @@ ggplot() +
 
 
 
-```{r, echo = FALSE}
+```{r #1, echo = FALSE}
 ####################################################################################################
 
 # 1. What is the "benefit" to consumers under the status quo?
@@ -219,7 +219,7 @@ env_cost <- 2*q_test
 
 
 
-```{r problem3, echo=FALSE}
+```{r #3, echo=FALSE}
 ####################################################################################################
                                   #3. Adding the Gas Tax
 
@@ -239,7 +239,7 @@ q_tax <- uniroot(function(x) demand_agg(x) - supply_tax(x), range(x))$root
 
 
 ####################################################################################################
-#Caculate welfare (consumer surplus) of high income consumers   -- LAURA AT 292
+#Caculate welfare (consumer surplus) of high income consumers
 tax_base_cs_high  <- uniroot(function(x) demand_high(x) - p_tax, range(x))$root
     #finding x intercept of new supply curve for high demand
 tax_height_cs_high <- alpha_high - demand_high(tax_base_cs_high)
@@ -288,7 +288,7 @@ pretax_revenue <- 5 * q_test # $1,335,881
 
 
 
-```{r problem4, echo=FALSE}
+```{r #4, echo=FALSE}
 
 ################### GAS TAX OF $2 ####################################################
 #For comments, look above. This is directly copy and pasted from the above code chunk.

@@ -480,28 +480,29 @@ Effect of gas tax on quantity of gasoline produced and sold in France: The tax d
 
 Effect of gas tax on price of gasoline: The tax increased the gasoline price by $0.39; from $5 pre-tax to $5.39 post-tax.
 
-Effect of gas tax on high income CS: The tax decreased high income CS by $68,127; from $1,610,717 pre-tax to $1,542,590 post-tax.
+Effect of gas tax on high income CS: The tax decreased high income CS by $54,696; from $1,303.747 pre-tax to $1,249,051 post-tax.
 
-Effect of gas tax on low income CS: The tax decreased low income CS by $61,933; from $1,377,561 pre-tax to $1,315,628 post-tax.
+Effect of gas tax on low income CS: The tax increased low income CS by $47,205; from $969,635 pre-tax to $1,016,840 post-tax.
 
-Effect of gas tax on PS: The tax increased PS by $55,011.80; from $422,666.60 pre-tax to $477,678.40 post-tax.
+Effect of gas tax on PS: The tax decreased PS by $29,093.91; from $667,940.50 pre-tax to $638,846.59 post-tax.
 
-Effect of gas tax on environmental cost: The tax decreased environmental cost by $11,767.10; from $534,352.40 pre-tax to 522,585.30 post-tax.
+Effect of gas tax on environmental cost: The tax decreased environmental cost by $11,767.10; from $534,352.40 pre-tax to $522,585.30 post-tax.
 
-Effect of gas tax on total revenue: The tax increased total revenue by $72,458; from $1,335,881 pre-tax to $1,408,339 post-tax.
+Effect of gas tax on total revenue: The tax generated a total revenue of $130,646.
 
 ####**4.**
-Effect of range of gas taxes on high income consumer surplus:
+Effect of range of gas taxes on high income consumer surplus: 
 
-Effect of range of gas taxes on low income consumer surplus:
+Effect of range of gas taxes on low income consumer surplus: 
 
 ####**5.**
-Effects of electric car popularity on quantity of gasoline consumed by high income consumers:
+Effects of electric car popularity on quantity of gasoline consumed by high income consumers: Gas consumption by high income consumers is halved; the quantity decreases from 157,599.4 gallons to 78,799.72 gallons post-electric car popularity.
 
-Effects of electric car popularity on quantity of gasoline consumed by low income consumers: 
+Effects of electric car popularity on quantity of gasoline consumed by low income consumers: Gas consumption by low income consumers is halved; the quantity decreases from 142,593.8 gallons to 71,296.9 gallons post-electric car popularity.
 
-Effects of electric car popularity on price of gasoline:
+Effects of electric car popularity on price of gasoline: The gas price is halved; the price decreases from $5 to $2.50 post-electric car popularity.
 
-Effects of electric car popularity on environmental cost:
+Effects of electric car popularity on environmental cost: The environmental cost is halved; the cost decreases from $534,352.40 to $267,176.20 post-electric car popularity.
 
 ####**6.**
+The invention of electric cars has a bigger impact on environmental quality as it lowers the environmental cost by $220,107.70 more than a $2/gal gas tax does.

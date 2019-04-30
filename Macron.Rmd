@@ -289,11 +289,10 @@ pretax_revenue <- 5 * q_test # $1,335,881
 
 
 ```{r #4, echo=FALSE}
-
-################### GAS TAX OF $2 ####################################################
+############################    PROBLEM 4: INFRASTRUCTURE REPAIRS    ###############################
 #For comments, look above. This is directly copy and pasted from the above code chunk.
-supply_tax_2 <- function(x){
-  supply_slope*x + 2
+supply_tax_repairs <- function(x){
+  supply_slope*x + 1
 }
 
 ####################################################################################################

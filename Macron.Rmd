@@ -1,19 +1,24 @@
 ---
 title: "Gas Tax Assignment"
-author: "Daphne Virlar"
-date: "4/25/2019"
-output: html_document
-theme: yeti
+author: "Daphne Virlar & Laura Ingulsrud"
+date: "May 1, 2019"
+output:
+  html_document: 
+    df_print: paged
+    theme: cosmo
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(kableExtra)
 data <- read_csv("Gas_Data.csv")
 
+#<P style="page-break-before: always">
 ```
 
-```{r, echo = FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
 # 1.What is the aggregate daily demand curve for gasoline in France? 
 
@@ -23,7 +28,7 @@ low_demand_lm <- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
 high_demand_lm <- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 
 # Find intercept and slope for low income demand curve
-summary(low_demand_lm)        #p = alpha + beta*Q
+summary(low_demand_lm)       #p = alpha + beta*Q
   alpha_low <- 2.199e+01 #alpha = intercept
   beta_low  <- -1.355e-04 #beta = slope
   
@@ -89,26 +94,27 @@ mec <- function(x){
 df <- data.frame(x = c(0:267176.2), y = c(5))
 x <- 70000:500000
 
-chart <- ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just allows for all the large numbers to actually show up on the graph. Otherwise it looks like a  bunch of flat lines.
-  stat_function(fun = demand_low, color = "cadetblue3") +
-  stat_function(fun = demand_high, color = "red3") +
-  stat_function(fun = demand_agg, color = "mediumpurple")+
-  stat_function(fun = supply_fx, color = "olivedrab")+
-  stat_function(fun = mec, color = "orange")+
-  xlab("\nQuantity") + ylab("Price\n") + ggtitle("Problem 1: Initial Gas Tax Set-Up \n") +
-  scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
-  scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) # set x-axis
 
-chart
 
 ####################################################################################################
+# chart <- ggplot(data.frame(x = c(70000, 500000)), aes(x = x)) +    #the x variable just allows for all the large numbers to actually show up on the graph. Otherwise it looks like a  bunch of flat lines.
+#   stat_function(fun = demand_low, color = "cadetblue3") +
+#   stat_function(fun = demand_high, color = "red3") +
+#   stat_function(fun = demand_agg, color = "mediumpurple")+
+#   stat_function(fun = supply_fx, color = "olivedrab")+
+#   stat_function(fun = mec, color = "orange")+
+#   xlab("\nQuantity") + ylab("Price\n") + ggtitle("Problem 1: Initial Gas Tax Set-Up \n") +
+#   scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
+#   scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) # set x-axis
+# 
+
 ```
 
 
-Tricks of the trade: Page Break. When knitting to html, page break will only appear whe you try to print or print to pdf. 
-<P style="page-break-before: always">
 
-```{r, echo=FALSE}
+
+
+```{r, echo=FALSE, warning=FALSE, fig.align= "center"}
 
 #Equilibrium quantity
   #uniroot() finds the intersection point between two lines. HOW FUCKING COOL IS THAT.
@@ -121,21 +127,28 @@ p_test <- supply_fx(q_test)
   # P = $5
 
 
-z <- seq(0, q_test, 0.05)
+z <- seq(0, q_test, 100)
 
 # Plot graph of initial gas tax
 ggplot() +
-  stat_function(aes(x, color = "Low Gallons Demand"), fun = demand_low) +
-  stat_function(aes(x, color = "High Gallons Demand"), fun = demand_high) +
-  stat_function(aes(x, color = "Aggregate Demand"), fun = demand_agg) + 
-  stat_function(aes(x, color = "Marginal Externality Cost"), fun = mec) +
-  stat_function(aes(x, color = "Supply"), fun = supply_fx) +
+  stat_function(aes(x, color = "Low Gallons Demand"), fun = demand_low, xlim = c(0,500000), size = 1) +
+  stat_function(aes(x, color = "High Gallons Demand"), fun = demand_high, , xlim = c(0,500000), size = 1) +
+  stat_function(aes(x, color = "Aggregate Demand"), fun = demand_agg, xlim = c(11000,500000), size = 1) + 
+  stat_function(aes(x, color = "Aggregate Demand"), fun = demand_high, xlim = c(0,11000), size = 1)+
+  stat_function(aes(x, color = "Marginal Externality Cost"), fun = mec, , size = 1) +
+  stat_function(aes(x, color = "Supply"), fun = supply_fx, , size = 1) +
   xlab("\nQuantity (gallons of gasoline)") +
-  ylab("Price (dollars)\n") + 
+  ylab("Price (USD)\n") + 
   ggtitle("Figure 1: Initial Gas Tax Set-Up \n") +
   scale_y_continuous(limits= c(0,25), expand = c(0,0)) +  # set the y-axis
   scale_x_continuous(limits= c(0, 500000), expand = c(0,0)) + # set x-axis
-  theme_bw()+
+  labs(fill = "", color = "Functions")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black")) +
   ###
   annotate("point", x = q_test, y = 5, color = "grey30") + 
   ###
@@ -219,7 +232,7 @@ env_cost <- 2*q_test
 
 
 
-```{r #3, echo=FALSE}
+```{r #3, echo=FALSE, include = FALSE}
 ####################################################################################################
                                   #3. Adding the Gas Tax
 
@@ -291,52 +304,94 @@ pretax_revenue <- 5 * q_test # $1,335,881
 ```{r #4, echo=FALSE}
 ############################    PROBLEM 4: INFRASTRUCTURE REPAIRS    ###############################
 #For comments, look above. This is directly copy and pasted from the above code chunk.
-supply_tax_repairs <- function(x){
-  supply_slope*x + 1
-}
-
-####################################################################################################
-#Caculate welfare (consumer surplus) of high income consumers   
-tax_base_cs_high_2  <- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
-tax_height_cs_high_2 <- alpha_high - demand_high(tax_base_cs_high_2)
-              #y intercept of demand curve - price intercept of demand curve
-tax_area_cs_high_2 <- .5*tax_base_cs_high_2*tax_height_cs_high_2
-    
-
-#Caculate welfare (consumer surplus) of low income consumers
-tax_base_cs_low_2  <- uniroot(function(x) demand_low(x) - supply_tax_2(x), range(x))$root
-tax_height_cs_low_2 <- alpha_low - demand_low(tax_base_cs_low_2)
-              #y intercept of demand curve - price intercept of demand curve
-tax_area_cs_low_2 <- .5*tax_base_cs_low_2*tax_height_cs_low_2
-
-
-####################################################################################################
-#Producer surplus after tax
-
-#low demand producer surplus after gas tax
-ps_low_tax_2 <- 0.5*tax_base_cs_low_2*demand_low(tax_base_cs_low_2)
-         #0.5*    base*  price intercept of demand curve (this gives height)
-
-#high demand producer surplus after gas tax
-ps_high_tax_2 <- 0.5*tax_base_cs_high_2*demand_high(tax_base_cs_high_2)
-         #0.5*    base*  price intercept of demand curve (this gives height)
-
-#aggregate demand producer surplus after gas tax
-ps_agg_2 <- ps_low_tax_2 + ps_high_tax_2
-
-
-tax_area_cs_low_2; tax_area_cs_high_2; ps_agg_2
-
-#Calculate Environmental Cost under $2 gas tax
-env_cost_2 <- 2*q_agg_e # 
+# supply_tax_repairs <- function(x){
+#   supply_slope*x + 1
+# }
+# 
+# ####################################################################################################
+# #Caculate welfare (consumer surplus) of high income consumers   
+# tax_base_cs_high_2  <- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
+# tax_height_cs_high_2 <- alpha_high - demand_high(tax_base_cs_high_2)
+#               #y intercept of demand curve - price intercept of demand curve
+# tax_area_cs_high_2 <- .5*tax_base_cs_high_2*tax_height_cs_high_2
+#     
+# 
+# #Caculate welfare (consumer surplus) of low income consumers
+# tax_base_cs_low_2  <- uniroot(function(x) demand_low(x) - supply_tax_2(x), range(x))$root
+# tax_height_cs_low_2 <- alpha_low - demand_low(tax_base_cs_low_2)
+#               #y intercept of demand curve - price intercept of demand curve
+# tax_area_cs_low_2 <- .5*tax_base_cs_low_2*tax_height_cs_low_2
+# 
+# 
+# ####################################################################################################
+# #Producer surplus after tax
+# 
+# #low demand producer surplus after gas tax
+# ps_low_tax_2 <- 0.5*tax_base_cs_low_2*demand_low(tax_base_cs_low_2)
+#          #0.5*    base*  price intercept of demand curve (this gives height)
+# 
+# #high demand producer surplus after gas tax
+# ps_high_tax_2 <- 0.5*tax_base_cs_high_2*demand_high(tax_base_cs_high_2)
+#          #0.5*    base*  price intercept of demand curve (this gives height)
+# 
+# #aggregate demand producer surplus after gas tax
+# ps_agg_2 <- ps_low_tax_2 + ps_high_tax_2
+# 
+# 
+# tax_area_cs_low_2; tax_area_cs_high_2; ps_agg_2
+# 
+# #Calculate Environmental Cost under $2 gas tax
+# env_cost_2 <- 2*q_agg_e # 
             #2 is the marginal externality cost
             #q_agg_e is the quantity for where the supply and aggregate intersect
+
+
+
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+
+
+#Put Values in table:
+cs_high_table <- data.frame(tax_col = c(1:5),
+                               millions = c(1.332, 1.352, 1.365, 1.371, 1.369))
+
+cs_low_table <- data.frame(tax_col = c(1:5),
+                           millions = c(0.578, 0.619, 0.653, 0.679, 0.699))
+
+ps_table <- data.frame(tax_col = c(1:5),
+                       millions = c(0.611, 0.556, 0.503, 0.453, 0.406))
+
+all_table <- data.frame(tax = c(1:5),
+                        low_millions = c(0.578, 0.619, 0.653, 0.679, 0.699),
+                        high_millions = c(1.332, 1.352, 1.365, 1.371, 1.369),
+                        ps_millions = c(0.611, 0.556, 0.503, 0.453, 0.406))
+
+# kable(cs_high_table, booktabs = T, col.names = c("Tax Amount (USD)", "High Income Consumer Welfare (Million USD)")) %>% 
+#   kable_styling(latex_options = c("striped", "bordered", "hold_position"))
+
+# kable(cs_low_table, booktabs = T, col.names = c("Tax Amount (USD)", "Low Income Consumer Welfare (Million USD)")) %>% 
+#   kable_styling(latex_options = c("striped", "bordered", "hold_position"))
+
+# kable(ps_table, booktabs = T, col.names = c("Tax Amount (USD)", "Producer Welfare (Million USD)")) %>% 
+#   kable_styling(latex_options = c("striped", "bordered", "hold_position"))
+```
+
+```{r, echo=FALSE}
+kable(all_table, booktabs = T, col.names = c("Tax Amount (USD)", "Low Income Consumer Welfare (Million USD)", "High Income Consumer Welfare (Million USD)", "Producer Welfare (Million USD" )) %>%
+  kable_styling(latex_options = c("striped", "bordered", "hold_position"))
 ```
 
 
 
 
-```{r #5.Electric_cars}
+
+
+
+```{r #5.Electric_cars, warning=FALSE, message=FALSE, include=FALSE}
 ########################################### 5. ELECTRIC CARS ########################################
 
 # #5. Finally, assume that electric cars will gain popularity and that in the future this will lower the demand curves of all income groups by half (vertically). Under these new demand curves, what are the effects on: 
@@ -436,7 +491,7 @@ env_cost_e <- 2*q_agg_e # 267176.2
             #q_agg_e is the quantity for where the supply and aggregate intersect
 ```
 
-```{r #6}
+```{r #6, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
 #Create new supply curve at the $2 tax increase
 supply_tax_2 <- function(x){

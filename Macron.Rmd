@@ -8,6 +8,20 @@ output:
     theme: cosmo
 ---
 
+##**Technical Appendix**
+<br>
+
+####**1.**
+Aggregate daily demand curve for gasoline in France: $P_{Aggregate} = (-6.63*10^{-5})*Q_{Aggregate} + 22.71$
+
+Supply curve for gasoline: $P_{Supply} = (1.87*10^{-5})*Q_{Supply}$
+
+Consumer surplus (CS): $2,988,278
+
+Producer surplus (PS): $422,666.60
+
+Environmental cost: $534,352.40
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -299,6 +313,32 @@ pretax_revenue <- 5 * q_test # $1,335,881
 ```
 
 
+####**2.**
+High income CS: 53.9% of aggregate CS (Figure 1)
+
+Low income CS: 46.1% of aggregate CS (Figure 1)
+
+####**3.**
+Effect of gas tax on quantity of gasoline produced and sold in France: The tax decreased the amount of gasoline by 5,883.6 gallons; from 267,176.2 gallons pre-tax to 261,292.6 gallons post-tax.
+
+Effect of gas tax on price of gasoline: The tax increased the gasoline price by $0.39; from $5 pre-tax to $5.39 post-tax.
+
+Effect of gas tax on high income CS: The tax decreased high income CS by $54,696; from $1,303.747 pre-tax to $1,249,051 post-tax.
+
+Effect of gas tax on low income CS: The tax increased low income CS by $47,205; from $969,635 pre-tax to $1,016,840 post-tax.
+
+Effect of gas tax on PS: The tax decreased PS by $29,093.91; from $667,940.50 pre-tax to $638,846.59 post-tax.
+
+Effect of gas tax on environmental cost: The tax decreased environmental cost by $11,767.10; from $534,352.40 pre-tax to $522,585.30 post-tax.
+
+Effect of gas tax on total revenue: The tax generated a total revenue of $130,646.
+
+
+
+####**4.**
+Effect of range of gas taxes on high income consumer surplus: 
+
+Effect of range of gas taxes on low income consumer surplus: 
 
 
 ```{r #4, echo=FALSE}
@@ -381,8 +421,9 @@ all_table <- data.frame(tax = c(1:5),
 ```
 
 ```{r, echo=FALSE}
-kable(all_table, booktabs = T, col.names = c("Tax Amount (USD)", "Low Income Consumer Welfare (Million USD)", "High Income Consumer Welfare (Million USD)", "Producer Welfare (Million USD" )) %>%
-  kable_styling(latex_options = c("striped", "bordered", "hold_position"))
+kable(all_table, booktabs = T, col.names = c("Tax Amount", "Low Income Consumer Welfare", "High Income Consumer Welfare", "Producer Welfare" )) %>%
+  kable_styling(latex_options = c("striped", "bordered", "hold_position"), full_width = F) %>% 
+  add_header_above(c("USD" = 1, "Millions USD" = 3))
 ```
 
 
@@ -511,44 +552,8 @@ env_cost_2 <- 2*q_agg_2 # 487283.9
 
 
 
-##**Technical Appendix**
-<br>
 
-####**1.**
-Aggregate daily demand curve for gasoline in France: $P_{Aggregate} = (-6.63*10^{-5})*Q_{Aggregate} + 22.71$
 
-Supply curve for gasoline: $P_{Supply} = (1.87*10^{-5})*Q_{Supply}$
-
-Consumer surplus (CS): $2,988,278
-
-Producer surplus (PS): $422,666.60
-
-Environmental cost: $534,352.40
-
-####**2.**
-High income CS: 53.9% of aggregate CS (Figure 1)
-
-Low income CS: 46.1% of aggregate CS (Figure 1)
-
-####**3.**
-Effect of gas tax on quantity of gasoline produced and sold in France: The tax decreased the amount of gasoline by 5,883.6 gallons; from 267,176.2 gallons pre-tax to 261,292.6 gallons post-tax.
-
-Effect of gas tax on price of gasoline: The tax increased the gasoline price by $0.39; from $5 pre-tax to $5.39 post-tax.
-
-Effect of gas tax on high income CS: The tax decreased high income CS by $54,696; from $1,303.747 pre-tax to $1,249,051 post-tax.
-
-Effect of gas tax on low income CS: The tax increased low income CS by $47,205; from $969,635 pre-tax to $1,016,840 post-tax.
-
-Effect of gas tax on PS: The tax decreased PS by $29,093.91; from $667,940.50 pre-tax to $638,846.59 post-tax.
-
-Effect of gas tax on environmental cost: The tax decreased environmental cost by $11,767.10; from $534,352.40 pre-tax to $522,585.30 post-tax.
-
-Effect of gas tax on total revenue: The tax generated a total revenue of $130,646.
-
-####**4.**
-Effect of range of gas taxes on high income consumer surplus: 
-
-Effect of range of gas taxes on low income consumer surplus: 
 
 ####**5.**
 Effects of electric car popularity on quantity of gasoline consumed by high income consumers: Gas consumption by high income consumers is halved; the quantity decreases from 157,599.4 gallons to 78,799.72 gallons post-electric car popularity.

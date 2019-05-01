@@ -1,34 +1,42 @@
 ---
-title: "Gas Tax Assignment"
-author: "Daphne Virlar & Laura Ingulsrud"
-date: "May 1, 2019"
 output:
   html_document: 
     df_print: paged
     theme: cosmo
 ---
 
-**To:** President Macron
-**From:** Daphne Virlar and Laura Ingulsrud, Ceci N'est Pas Une Pipe Consulting LLC
-**Re:** Economic, environmental, and distributional effects of a gas tax proposal in France
-**Date:** 1 May 2019
+**To:** President Macron <br>
+**From:** Daphne Virlar and Laura Ingulsrud, Ceci N'est Pas Une Pipe Consulting LLC <br>
+**Re:** Economic, environmental, and distributional effects of a gas tax proposal in France <br>
+**Date:** 1 May 2019<br>
 
 **Introduction**
+
   In considering whether to implement various gas taxes in France, the distributional, economic, and environmental effects of potential policies must be evaluated. This analysis calculated these impacts in terms of USD in order to compare the benefits and costs of different scenarios, including a range of gas taxes and the popularization of electric vehicles. 
 
+
+
 **Analysis and Results**
+
   The analysis was performed using RStudio to calculate the demand of “low” and “high” income consumers of gasoline, the supply of gasoline from producers, and the environmental cost associated with the combustion of gasoline (Figure 1). The benefits and costs to consumers, producers, and the environment for a range of gas tax values were compared (Table 1), as well as the effects of electric vehicle introduction. 
+  
   As the gas tax value increases, the total tax revenue generated for infrastructure repairs would also increase, while the total environmental damage would decrease. An increase in tax revenue would ultimately benefit gasoline consumers, as they would be using public roads improved by tax-funded infrastructure repairs. Increasing the gas tax also has the effect of improving environmental quality in France, as the increased price dissuades consumers from purchasing as much gasoline or low-efficiency vehicles. 
+  
   While an increase in electric vehicle use would not contribute to revenue for infrastructure repairs, it would have a much bigger impact on environmental quality than a gas tax. Due to the downward shift in demand for gasoline electric vehicle use would cause, the environmental cost would decrease by $220,107.70 more than under a $2/gallon gas tax.
 
+
 **Distributional Effects and Conclusions**
+
   Although the overall welfare of both high and low income consumers increases as the gas tax increases from $0 to $5 (Table 1), the low income consumers are disproportionately negatively impacted by bearing the burden of the entire environmental cost. Since the gas tax revenue would be used for infrastructure repairs, consumers of gasoline and thus public roads improved by these repairs would benefit as the gas tax increases. As the producers of gasoline would not benefit from infrastructure repairs, the distributional effects of a gas tax would fall on producers, with their overall welfare decreasing as the gas tax amount increases. 
+  
   In choosing a gas tax policy, it is paramount to consider such analyses in weighing the costs and benefits of different policies. The decision should take into account economic and social effects on France’s consumers and producers in terms of revenue raised for public infrastructure, as well as environmental effects of gas tax levels compared to electric car demand. This analysis can help inform these important policy decisions.
 
+<P style="page-break-before: always">
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(knitr)
 library(kableExtra)
 data <- read_csv("Gas_Data.csv")
 
@@ -382,11 +390,18 @@ all_table <- data.frame(tax = c(1:5),
 #   kable_styling(latex_options = c("striped", "bordered", "hold_position"))
 ```
 
-**Table 1. Effects of range of gas taxes.**
+<P style="page-break-before: always">
+
+<center>
+
+####**Table 1. Effects of range of gas taxes**
+
+</center>
 ```{r, echo=FALSE}
 kable(all_table, booktabs = T, col.names = c("Tax Amount", "Low Income Consumer Welfare", "High Income Consumer Welfare", "Producer Welfare" )) %>%
-  kable_styling(latex_options = c("striped", "bordered", "hold_position"), full_width = F) %>% 
-  add_header_above(c("USD" = 1, "Millions USD" = 3))
+  # kable_styling(latex_options = c("striped", "bordered", "hold_position"), full_width = F) %>% 
+  kable_styling(c("striped", "bordered", "hold_position"), full_width = F) %>% 
+  add_header_above(c("USD/Gallon" = 1, "Millions USD" = 3))
 ```
 
 ```{r #5.Electric_cars, warning=FALSE, message=FALSE, include=FALSE}
@@ -507,10 +522,12 @@ env_cost_2 <- 2*q_agg_2 # 487283.9
 
 ```
 
-##**Technical Appendix**
-<br>
+<P style="page-break-before: always">
 
-####**1.** The aggregate daily demand curve was found by adding the demand curves for high and low income consumers horizontally. The aggregate daily demand curve represents the marginal willingness to pay for gasoline in France for high and low income consumers combined. The supply curve represents the marginal private cost to gasoline producers. The supply curve was found by solving for the slope of the curve, given current gas price of $5 USD. The “benefit” to consumers comprises the area underneath the associated demand curve and above the equilibrium price, also known as “consumer surplus”. The “benefit” to producers comprises the area above the supply curve and below the equilibrium price, also known as “producer surplus”. The environmental cost represents the marginal externality cost of producing gasoline in terms of environmental harm.
+###**Technical Appendix**<br>
+
+####**1.** 
+The aggregate daily demand curve was found by adding the demand curves for high and low income consumers horizontally. The aggregate daily demand curve represents the marginal willingness to pay for gasoline in France for high and low income consumers combined. The supply curve represents the marginal private cost to gasoline producers. The supply curve was found by solving for the slope of the curve, given current gas price of $5 USD. The “benefit” to consumers comprises the area underneath the associated demand curve and above the equilibrium price, also known as “consumer surplus”. The “benefit” to producers comprises the area above the supply curve and below the equilibrium price, also known as “producer surplus”. The environmental cost represents the marginal externality cost of producing gasoline in terms of environmental harm. See Figure 1.
 
 Aggregate daily demand curve for gasoline in France: $P_{Aggregate} = (-6.63*10^{-5})*Q_{Aggregate} + 22.71$
 
@@ -542,14 +559,16 @@ g) The $0.50/gal gas tax generated a total revenue of $130,646.
 
 <br>
 
-####**4.** While there would be an increasing loss in both consumer and producer surplus as the gas tax increases, the loss to consumer surplus is remedied by the benefit of infrastructure repairs funded by the total tax revenue. This explains why the overall welfare of both consumer groups increases as the gas tax increases. On the other hand, since the producers do not benefit from infrastructure repairs, the producer surplus decreases as the gas tax is raised from $0 to $5. Since the low income consumers bear the entire environmental cost, this amount must be subtracted from the low income consumer welfare, which explains the large difference in welfare amount between high and low income consumers. 
+####**4.** 
+While there would be an increasing loss in both consumer and producer surplus as the gas tax increases, the loss to consumer surplus is remedied by the benefit of infrastructure repairs funded by the total tax revenue. This explains why the overall welfare of both consumer groups increases as the gas tax increases. On the other hand, since the producers do not benefit from infrastructure repairs, the producer surplus decreases as the gas tax is raised from $0 to $5. Since the low income consumers bear the entire environmental cost, this amount must be subtracted from the low income consumer welfare, which explains the large difference in welfare amount between high and low income consumers. See Table 1.
 a) The overall welfare of high income consumers was calculated for each gas tax amount by adding the high income consumer surplus to the infrastructure repair benefit for high income consumers (gallons of gasoline purchased * $tax/gal).
 b) The overall welfare of low income consumers was calculated for each gas tax amount by adding the low income consumer surplus to the infrastructure repair benefit for low income consumers (gallons of gasoline purchased * $tax/gal), and then subtracting the environmental cost at that gas tax.
 c) The effects of each gas tax on gas producers was calculated by finding the producer surplus at each gas tax amount.
 
 <br>
 
-####**5.** In order to calculate the below effects due to electric car popularity halving the demand curves vertically, we divided the y-intercepts of our equations for demand for both income groups. We then used these new equations to calculate the new equilibrium quantities for both demand curves, the new equilibrium price based off the aggregate demand curve, and the new environmental cost based on the shifted aggregate demand curve.
+####**5.** 
+In order to calculate the below effects due to electric car popularity halving the demand curves vertically, we divided the y-intercepts of our equations for demand for both income groups. We then used these new equations to calculate the new equilibrium quantities for both demand curves, the new equilibrium price based off the aggregate demand curve, and the new environmental cost based on the shifted aggregate demand curve.
 a) Gas consumption by high income consumers is halved; the quantity decreases from 157,599.4 gallons to 78,799.72 gallons post-electric car popularity.
 b) Gas consumption by low income consumers is halved; the quantity decreases from 142,593.8 gallons to 71,296.9 gallons post-electric car popularity.
 c) The gas price is halved; the price decreases from $5 to $2.50 post-electric car popularity.
@@ -557,4 +576,5 @@ d) The environmental damage is halved; the cost decreases from $534,352.40 to $2
 
 <br>
 
-####**6.** The invention of electric cars has a bigger impact on environmental quality as it reduces the environmental cost by $220,107.70 more than a $2/gal gas tax does. With a $2/gal gas tax, the environmental cost is $487,283.90. With the invention of electric cars, the environmental cost is $267,176.20.
+####**6.** 
+The invention of electric cars has a bigger impact on environmental quality as it reduces the environmental cost by $220,107.70 more than a $2/gal gas tax does. With a $2/gal gas tax, the environmental cost is $487,283.90. With the invention of electric cars, the environmental cost is $267,176.20.
